@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode/
+.idea/
+
+# Local files
+*.log
+db.sqlite3
+
+# Static files generated for deployment
+staticfiles/
+media/

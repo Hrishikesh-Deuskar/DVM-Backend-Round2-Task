@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization Dashboard</title>
+</head>
+<body>
+
+    <h1>Organization Dashboard</h1>
+
+    <p>Welcome, {{ request.user.username }}!</p>
+
+    <h2>Your Organizations</h2>
+
+    <ul>
+        {% for membership in memberships %}
+            <li>
+                {{ membership.organization.name }}
+                — {{ membership.get_role_display }}
+            </li>
+        {% empty %}
+            <li>No organizations assigned.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>

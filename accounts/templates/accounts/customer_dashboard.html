@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Dashboard</title>
+</head>
+<body>
+
+    <h1>Customer Dashboard</h1>
+
+    <p>Welcome, {{ request.user.username }}!</p>
+
+    <p>You will soon be able to browse events,
+       add wallet money, and book tickets here.</p>
+
+    <form method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>

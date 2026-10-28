@@ -13,6 +13,10 @@
     <p>You will soon be able to browse events,
        add wallet money, and book tickets here.</p>
 
+    <a href="{% url 'events:event_list' %}">
+        Browse Events
+    </a>
+
     <form method="post" action="{% url 'accounts:logout' %}">
         {% csrf_token %}
         <button type="submit">Logout</button>

@@ -17,6 +17,12 @@
         Browse Events
     </a>
 
+    <p>
+        <a href="{% url 'wallet:dashboard' %}">
+            My Wallet
+        </a>
+    </p>
+
     <form method="post" action="{% url 'accounts:logout' %}">
         {% csrf_token %}
         <button type="submit">Logout</button>

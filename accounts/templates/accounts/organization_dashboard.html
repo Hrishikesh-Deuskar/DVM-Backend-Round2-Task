@@ -20,6 +20,11 @@
             </li>
         {% empty %}
             <li>No organizations assigned.</li>
+
+            <a href="{% url 'organization:dashboard' membership.organization.id %}"
+                class="btn btn-primary">
+                Open {{ membership.organization.name }}
+            </a>
         {% endfor %}
     </ul>
 

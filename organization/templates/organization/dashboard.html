@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ organization.name }} | OutingHub</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <a href="{% url 'accounts:organization_dashboard' %}"
+       class="btn btn-outline-secondary mb-4">
+        My Organizations
+    </a>
+
+    <h1>{{ organization.name }}</h1>
+
+    <p class="text-muted">
+        Your role: {{ membership.get_role_display }}
+    </p>
+
+    <div class="d-flex gap-2 mb-4">
+        <a href="{% url 'organization:event_list' organization.id %}"
+           class="btn btn-primary">
+            Manage Events
+        </a>
+
+        <a href="{% url 'organization:analytics' organization.id %}"
+           class="btn btn-outline-primary">
+            View Analytics
+        </a>
+    </div>
+
+    <h3>Recent Events</h3>
+
+    {% for event in events %}
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <h5>{{ event.title }}</h5>
+
+                <p>
+                    {{ event.get_event_type_display }}
+                    — ₹{{ event.price }}
+                </p>
+
+                <a href="{% url 'organization:event_detail' organization.id event.id %}"
+                   class="btn btn-outline-primary btn-sm">
+                    Manage Event
+                </a>
+
+            </div>
+        </div>
+
+    {% empty %}
+        <p>No events have been created yet.</p>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

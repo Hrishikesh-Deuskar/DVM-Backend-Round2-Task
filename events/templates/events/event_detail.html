@@ -14,6 +14,12 @@
 
 <body class="bg-light">
 
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+
 <div class="container py-5">
 
     <a href="{% url 'events:event_list' %}"
@@ -63,9 +69,38 @@
                     {{ event.capacity }}
                 </p>
 
-                <p class="text-muted">
-                    Ticket purchasing will be available soon.
-                </p>
+                <h4 class="mt-4">Purchase Tickets</h4>
+
+                <form
+                    method="post"
+                    action="{% url 'bookings:purchase' event.id %}"
+                >
+                    {% csrf_token %}
+
+                    <input type="hidden" name="event_type" value="ticket">
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">
+                            Number of Tickets
+                        </label>
+
+                        <input
+                            type="number"
+                            id="quantity"
+                            name="quantity"
+                            min="1"
+                            max="10"
+                            value="1"
+                            class="form-control"
+                            style="max-width: 150px;"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Purchase Tickets
+                    </button>
+                </form>
 
             {% elif event.event_type == "slot" %}
 
@@ -85,12 +120,41 @@
                             (Capacity: {{ slot.capacity }})
                         </span>
 
+                        <form
+                            method="post"
+                            action="{% url 'bookings:purchase' event.id %}"
+                            class="mt-2"
+                        >
+                            {% csrf_token %}
+
+                            <input type="hidden" name="event_type" value="slot">
+                            <input type="hidden" name="slot_id" value="{{ slot.id }}">
+
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Book This Slot
+                            </button>
+                        </form>
+
                     </li>
 
                     {% empty %}
 
                     <li class="list-group-item">
                         No slots have been created.
+                        <form
+                            method="post"
+                            action="{% url 'bookings:purchase' event.id %}"
+                            class="mt-2"
+                        >
+                            {% csrf_token %}
+
+                            <input type="hidden" name="event_type" value="slot">
+                            <input type="hidden" name="slot_id" value="{{ slot.id }}">
+
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Book This Slot
+                            </button>
+                        </form>
                     </li>
 
                     {% endfor %}

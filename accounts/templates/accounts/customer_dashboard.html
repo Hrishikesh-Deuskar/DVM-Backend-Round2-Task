@@ -23,6 +23,18 @@
         </a>
     </p>
 
+    <p>
+        <a href="{% url 'bookings:history' %}">
+            My Bookings
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'bookings:active_tickets' %}">
+            My Active Tickets
+        </a>
+    </p>
+
     <form method="post" action="{% url 'accounts:logout' %}">
         {% csrf_token %}
         <button type="submit">Logout</button>

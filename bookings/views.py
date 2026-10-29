@@ -12,7 +12,7 @@ from .services import purchase_event
 
 from django.shortcuts import get_object_or_404
 
-
+from .models import Booking, Ticket
 
 @login_required
 @require_POST
@@ -97,4 +97,49 @@ def booking_detail(request, booking_id):
         request,
         "bookings/booking_detail.html",
         {"booking": booking},
+    )
+
+@login_required
+def booking_history(request):
+
+    if not request.user.groups.filter(name="Customer").exists():
+        raise PermissionDenied
+
+    bookings = (
+        Booking.objects.filter(user=request.user)
+        .select_related("event", "slot")
+        .prefetch_related("tickets")
+        .order_by("-created_at")
+    )
+
+    return render(
+        request,
+        "bookings/booking_history.html",
+        {"bookings": bookings},
+    )
+
+@login_required
+def active_tickets(request):
+
+    if not request.user.groups.filter(name="Customer").exists():
+        raise PermissionDenied
+
+    tickets = (
+        Ticket.objects.filter(
+            booking__user=request.user,
+            booking__status=Booking.BookingStatus.CONFIRMED,
+            status=Ticket.TicketStatus.ACTIVE,
+        )
+        .select_related(
+            "booking",
+            "booking__event",
+            "booking__slot",
+        )
+        .order_by("-created_at")
+    )
+
+    return render(
+        request,
+        "bookings/active_tickets.html",
+        {"tickets": tickets},
     )

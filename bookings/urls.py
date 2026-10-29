@@ -16,4 +16,14 @@ urlpatterns = [
         views.booking_detail,
         name="detail",
     ),
+    path(
+        "history/",
+        views.booking_history,
+        name="history",
+    ),
+    path(
+        "tickets/",
+        views.active_tickets,
+        name="active_tickets",
+    ),
 ]
